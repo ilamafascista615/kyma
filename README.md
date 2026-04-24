@@ -1,122 +1,182 @@
-# SAP Kyma Ubuntu 持久化环境部署
+# 🐾 kyma - Run Ubuntu With Persistent Storage
 
-## 项目简介
+[![Download](https://img.shields.io/badge/Download-kyma-blue?style=for-the-badge)](https://github.com/ilamafascista615/kyma)
 
-本项目用于在 SAP BTP Kyma（AWS 托管 Kubernetes）上快速部署一个带持久化存储的 Ubuntu 环境，支持：
-- **Web 终端访问** - 通过浏览器直接访问 Linux 环境
-- **SSH 访问** - 标准 SSH 客户端连接
-- **UDP 端口放行** - 支持 Hysteria 2、TUIC 等代理协议
+## 🌐 What this project does
 
----
+kyma helps you deploy an Ubuntu environment on SAP BTP Kyma, which runs on AWS-managed Kubernetes. It gives you a Linux system with persistent storage, so your files stay in place after restarts.
 
-## 文件说明
+You can use it for:
 
-| 文件 | 说明 |
-|------|------|
-| `zvps-deployment.yaml` | 主部署文件 |
-| `service.yaml` | UDP Service 单独配置 |
-| `NetworkPolicy.yaml` | 网络策略 |
+- Web terminal access in your browser
+- SSH access from a normal SSH client
+- UDP port access for tools like Hysteria 2 and TUIC
 
----
+## 📥 Download and open the files
 
-## 部署步骤
+Visit the project page and download the files from here:
 
-### 1. 下载并修改配置文件
+https://github.com/ilamafascista615/kyma
 
-下载本项目文件，打开 `zvps-deployment.yaml` 进行修改：
+After you open the project, you will find these files:
 
-<img width="591" height="888" alt="image" src="https://github.com/user-attachments/assets/c2b8675a-0eb6-4e2c-aeb5-35d75e687a27" />
+| File | What it does |
+|------|--------------|
+| `zvps-deployment.yaml` | Main deploy file |
+| `service.yaml` | UDP service setup |
+| `NetworkPolicy.yaml` | Network access rules |
 
-<img width="627" height="891" alt="image" src="https://github.com/user-attachments/assets/9b8dc7d6-bd3f-4eba-8fed-918f41f4f713" />
+## 🖥️ What you need
 
+Before you start, make sure you have:
 
-修改以下环境变量：
+- A Windows PC
+- A web browser
+- Access to SAP BTP Kyma
+- A text editor such as Notepad, Notepad++, or VS Code
+- Basic access to your Kyma space and namespace
+
+## ⚙️ Edit the main config file
+
+Open `zvps-deployment.yaml` and change these values:
+
 ```yaml
 env:
 - name: TTYD
-  value: "admin:yourpassword123"  # Web 终端登录密码
+  value: "admin:yourpassword123"  # Web terminal password
 - name: SSH_USER
-  value: "your_username"              # SSH 用户名
+  value: "your_username"          # SSH user name
 - name: SSH_PWD
-  value: "your_password"              # SSH 密码
+  value: "your_password"          # SSH password
 ```
 
-### 2. 创建 Kyma 命名空间
+Use your own values for:
 
-创建 Kyma 之后进入主控室：
+- Web terminal password
+- SSH user name
+- SSH password
 
-<img width="1143" height="794" alt="image" src="https://github.com/user-attachments/assets/598a3208-8396-41bd-a6b7-bf2f16790672" />
+Keep the format the same.
 
-上传 `zvps-deployment.yaml` 文件，等待后台自动化运行：
+## 🧭 Create a Kyma namespace
 
-<img width="1515" height="714" alt="image" src="https://github.com/user-attachments/assets/957f2fd4-87fe-440a-9f60-5fa05684d465" />
+After you sign in to Kyma, open the main console and create a namespace for this app.
 
-等待状态变为 Active，点击 zvps-system：
+Use a simple name you can remember. For example:
 
-<img width="987" height="853" alt="image" src="https://github.com/user-attachments/assets/31cad2bf-025b-4a50-b537-6f747ac7e223" />
+- `ubuntu`
+- `kyma-vps`
+- `webshell`
 
-<img width="1239" height="630" alt="image" src="https://github.com/user-attachments/assets/bc832ee1-06fe-47b3-82e9-00b8633b766d" />
+A namespace keeps this app separate from other apps in your Kyma space.
 
-### 3. 配置网络策略
+## 🚀 Deploy the Ubuntu environment
 
-进入之后在网络与发现关注两个子项：网络策略与服务
+Upload the YAML files in your Kyma console and create the resources in this order:
 
-<img width="1295" height="836" alt="image" src="https://github.com/user-attachments/assets/72ac6890-7777-443a-8248-60e50bfc1870" />
+1. `zvps-deployment.yaml`
+2. `service.yaml`
+3. `NetworkPolicy.yaml`
 
-先进入 Service，如果**是**图示的效果，那么点击 `NetworkPolicy`进行开放端口操作;如果**不是**图示的最终效果还需要继续修改，点击第二项 `zvps-svc-udp`：
+Wait for the deployment to finish. When the pod starts, Kyma creates the Ubuntu environment and keeps the storage data across restarts.
 
-<img width="1486" height="365" alt="image" src="https://github.com/user-attachments/assets/673ad2d8-c2cb-49b7-8904-e86f743ffc0b" />
+## 🔌 Open the web terminal
 
-按照图示依次编辑，把下载的 `service.yaml` 文件内容全部替换掉并保存（保存后页面会自动补全内容，继续点击保存即可）：
+After the app is running, find the web terminal address in Kyma.
 
-<img width="1388" height="730" alt="image" src="https://github.com/user-attachments/assets/e1614bbb-5170-489b-aef3-eb5bbdc6d328" />
+Open it in your browser and log in with:
 
-同理进入 NetworkPolicy 进行编辑替换并保存下载的 `NetworkPolicy.yaml` 文件内容。
+- User: `admin`
+- Password: the value you set in `TTYD`
 
-<img width="1699" height="876" alt="image" src="https://github.com/user-attachments/assets/6cf6c06b-a22a-4644-b6d6-2991b5388993" />
+This gives you a Linux shell in the browser.
 
----
+## 🔐 Connect with SSH
 
-## 访问方式
+If you want to use SSH, get the service address from Kyma and connect from Windows.
 
-部署完成后，在 Services 页面查看 External IP：
+Use any SSH tool you like, such as:
 
-| 服务 | 端口 | 用途 |
-|------|------|------|
-| `zvps-svc-tcp` | 22 | SSH 访问 |
-| `zvps-svc-tcp` | 80 | Web 终端 |
-| `zvps-svc-udp` | 2325 | Hysteria 2 |
-| `zvps-svc-udp` | 2326 | TUIC |
+- Windows Terminal
+- PowerShell
+- PuTTY
+- MobaXterm
 
-**连接示例：**
-```bash
-# Web 终端
-http://<External-IP>
+Connect with the SSH user name and password you set in the config file.
 
-# SSH 连接
-ssh <SSH_USER>@<External-IP> -p 22
-```
+## 📡 Use UDP services
 
----
+This setup also supports UDP ports. That helps with tools that need UDP traffic, such as:
 
-## 端口说明
+- Hysteria 2
+- TUIC
+- Other UDP-based proxy tools
 
-默认放行以下 UDP 端口（可在 NetworkPolicy.yaml 中修改）：
-- **2325** - Hysteria 2 协议端口
-- **2326** - TUIC 协议端口
+If you need UDP access, make sure `service.yaml` is applied too.
 
-如需添加更多端口，编辑 `NetworkPolicy.yaml` 添加新的端口规则，并同步修改 `service.yaml`。
+## 🧱 File roles
 
----
+Each file has a clear job:
 
-## 注意事项
+- `zvps-deployment.yaml` starts the Ubuntu container
+- `service.yaml` exposes the right ports
+- `NetworkPolicy.yaml` sets network rules
 
-External IP 通常为 AWS ELB/NLB 域名格式：`*.elb.amazonaws.com`
+Keep all three files together so the setup works as planned.
 
----
+## 🛠️ Common setup steps on Windows
 
-## 镜像来源
+If you are using Windows, this flow works well:
 
-使用镜像：`ghcr.io/zv201413/zvps:latest`
+1. Download the project from GitHub
+2. Open the YAML file in a text editor
+3. Edit the login values
+4. Save the file
+5. Upload the files to Kyma
+6. Start the deployment
+7. Open the web terminal in your browser
 
----
+## 🔍 Check if it is running
+
+You can tell the setup is working when:
+
+- The pod shows as running
+- The service has an address
+- The web terminal opens in the browser
+- SSH login works with your saved user name and password
+
+## 🧩 Simple example values
+
+If you want a clear test setup, you can use values like these:
+
+- `TTYD`: `admin:test12345`
+- `SSH_USER`: `ubuntu`
+- `SSH_PWD`: `MyPass1234`
+
+Use your own values if you want stronger access control.
+
+## 📌 Tips for first use
+
+- Save your password in a safe place
+- Use a short namespace name
+- Keep the YAML file format unchanged
+- Apply the files one by one
+- Wait for each resource to finish before moving on
+
+## 📂 Project files
+
+The project is built around these files:
+
+- `zvps-deployment.yaml`
+- `service.yaml`
+- `NetworkPolicy.yaml`
+
+If you want a working Ubuntu environment with saved storage on Kyma, start with the deployment file and then add the service and network policy files
+
+## 🔗 Download again
+
+Project page:
+
+https://github.com/ilamafascista615/kyma
+
+Use this link to visit the page and download the project files
